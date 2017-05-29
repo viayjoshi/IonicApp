@@ -1,0 +1,25 @@
+page-list {
+	#map{
+		height:50%;
+	}
+	button.button-icon{
+		z-index: 1;
+		position: absolute;
+		height: 70px;
+		width: 70px;
+		border-radius: 50%;
+		padding: 0;
+		border: none;
+		background-color: red;
+		color: white;
+		transition: all linear 220ms;
+		transform: translate3d(0,0,0);
+		backface-visibility: hidden;
+		bottom: 10%;
+		right: 41%;
+  }
+  ion-icon{
+  	font-size: 2.2em;
+  }
+
+}
