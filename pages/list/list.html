@@ -8,7 +8,9 @@
 </ion-header>
 
 <ion-content>
-   <button class="button button-icon icon">START</button>
+   <button class="button button-icon icon" (click)="startTimer()">
+   {{!flag ? "START" : "STOP"}}
+   </button>
    <div #map id="map"></div>
    <ion-grid >
     <ion-row  text-center padding>
@@ -24,13 +26,13 @@
     </ion-row>
     <ion-row text-center padding>
       <ion-col>
-        1 of 3
+        ---
       </ion-col>
       <ion-col>
-        2 of 3
+        {{currentTimer || "00:00:00"}}
       </ion-col>
       <ion-col>
-        3 of 3
+        ---
       </ion-col>
     </ion-row>
   </ion-grid>
