@@ -8,9 +8,6 @@
 </ion-header>
 
 <ion-content>
-   <button class="button button-icon icon" (click)="startTimer()">
-   {{!flag ? "START" : "STOP"}}
-   </button>
    <div #map id="map"></div>
    <ion-grid >
     <ion-row  text-center padding>
@@ -24,15 +21,22 @@
        <ion-icon ios="ios-flash" md="ios-flash-outline"></ion-icon>
       </ion-col>
     </ion-row>
-    <ion-row text-center padding>
+    <ion-row text-center padding class="activityCount">
       <ion-col>
         ---
       </ion-col>
       <ion-col>
-        {{currentTimer || "00:00:00"}}
+        <span>{{currentTimer || "00:00:00"}}</span>
       </ion-col>
       <ion-col>
         ---
+      </ion-col>
+    </ion-row>
+    <ion-row text-center>
+      <ion-col>
+        <button class="button button-icon icon" (click)="startTimer()">
+   {{!flag ? "START" : "STOP"}}
+   </button>
       </ion-col>
     </ion-row>
   </ion-grid>

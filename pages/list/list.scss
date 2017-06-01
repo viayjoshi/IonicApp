@@ -4,7 +4,7 @@ page-list {
 	}
 	button.button-icon{
 		z-index: 1;
-		position: absolute;
+		/*position: absolute;*/
 		height: 70px;
 		width: 70px;
 		border-radius: 50%;
@@ -15,11 +15,16 @@ page-list {
 		transition: all linear 220ms;
 		transform: translate3d(0,0,0);
 		backface-visibility: hidden;
-		bottom: 10%;
-		right: 41%;
+		
   }
   ion-icon{
   	font-size: 2.2em;
+  }
+  .activityCount{
+  	font-size: 1.7em;
+  }
+  .scroll-content{
+  	overflow-y: hidden !important;
   }
 
 }
