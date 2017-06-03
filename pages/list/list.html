@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>List</ion-title>
+    <ion-title>Acivity</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -23,7 +23,7 @@
     </ion-row>
     <ion-row text-center padding class="activityCount">
       <ion-col>
-        ---
+        {{distanceTravelled }} km
       </ion-col>
       <ion-col>
         <span>{{currentTimer || "00:00:00"}}</span>

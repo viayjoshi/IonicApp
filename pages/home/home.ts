@@ -1,30 +1,22 @@
 import { Component ,ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation';
 import { NavController } from 'ionic-angular';
-import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition, MarkerOptions, Marker} from '@ionic-native/google-maps';
-
+//import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition, MarkerOptions, Marker} from '@ionic-native/google-maps';
+import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-	 currentTime: string;
-	 flag:boolean;
-	 mytimeout:any;
-  constructor(public navCtrl: NavController, private geolocation: Geolocation) {
+	 
+  constructor(public navCtrl: NavController, private deviceMotion: DeviceMotion) {
+    this.deviceMotion.getCurrentAcceleration().then(
+  (acceleration: DeviceMotionAccelerationData) => console.log(acceleration),
+  (error: any) => console.log(error));
+
   }
 
-  startTimer(flag){
-  	this.flag=!this.flag;
-  	if(!flag){
-  		this.mytimeout=setInterval(() => {
-      	this.currentTime=new Date().getHours().toString() + ':' + 
-  					new Date().getMinutes().toString() + ':' +new Date().getSeconds().toString()
-    	}, 1000);	
-  	}else{
-  		clearInterval(this.mytimeout);
-  	}
-  	
-  }
+  
+
 
 }
