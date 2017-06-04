@@ -23,7 +23,7 @@
     </ion-row>
     <ion-row text-center padding class="activityCount">
       <ion-col>
-        {{distanceTravelled }} km
+        {{distanceTravelled || "0"}} km
       </ion-col>
       <ion-col>
         <span>{{currentTimer || "00:00:00"}}</span>

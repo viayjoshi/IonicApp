@@ -54,29 +54,20 @@ export class ListPage {
     function toRad (val) {
      return val * Math.PI / 180;
     }
-
- function getDistance(lat1, lon1, lat2, lon2) {
-   
-  var R = 6371; // km
-  var dLat = toRad(lat2 - lat1);
-  var dLon = toRad(lon2 - lon1); 
-  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-          Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * 
-          Math.sin(dLon / 2) * Math.sin(dLon / 2); 
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); 
-  var d = R * c;
-  this.distanceTravelled=(d).toString();
-  //return d;
- }
-      this.geolocation.getCurrentPosition().then(pos => {
-        //this.initMap(pos.coords.latitude,pos.coords.longitude);
-        //console.log('lat: ' + pos.coords.latitude + ', lon: ' + pos.coords.longitude);
-        this.destLat=pos.coords.latitude;
-        this.destLog=pos.coords.longitude;
-        //console.log(this);
-        getDistance(this.originLat,this.originLog,this.destLat,this.destLog);                
-
-     }); 
+    this.geolocation.getCurrentPosition().then(pos => {
+      this.destLat=pos.coords.latitude;
+      this.destLog=pos.coords.longitude;              
+      let R = 6371; // km
+      let dLat = toRad(this.destLat - this.originLat);
+      let dLon = toRad(this.destLog - this.originLog); 
+      let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(toRad(this.originLat)) * Math.cos(toRad(this.destLat)) * 
+              Math.sin(dLon / 2) * Math.sin(dLon / 2); 
+      let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); 
+      let d = R * c;
+      
+      this.distanceTravelled=(d).toString();
+   }); 
  }
 
   startTimer(){
@@ -104,6 +95,7 @@ export class ListPage {
         this.currentTimer=("0"+this.hours).slice(-2)+':'+("0"+this.minutes).slice(-2)+':'+("0"+this.seconds).slice(-2);
         
         if(this.seconds%10==0){
+          this.distanceTravelled=0;
           if(!this.flag1){
               this.originLat=this.destLat;
               this.originLog=this.destLog;
