@@ -1,8 +1,9 @@
+
 import { Component,ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'page-list',
-  templateUrl: 'map.html'
+  selector: 'page-user',
+  templateUrl: 'user.html'
 })
 export class MapPage {
  // @ViewChild('map') mapElement;

@@ -75,7 +75,7 @@ export class ListPage {
     this.flag=!this.flag;
     if(this.flag){
      this.geolocation.getCurrentPosition().then(pos => {
-        this.initMap(pos.coords.latitude,pos.coords.longitude);
+        //this.initMap(pos.coords.latitude,pos.coords.longitude);
         //console.log('lat: ' + pos.coords.latitude + ', lon: ' + pos.coords.longitude);
         this.originLat=pos.coords.latitude;
         this.originLog=pos.coords.longitude;
