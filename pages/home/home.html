@@ -3,25 +3,38 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Accelerometer</ion-title>
+    <ion-title>Personal Info</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  
-  <button ion-button secondary (click)="showAccelaration()">
+
+  <ion-list>
+    <ion-item padding>
+      <ion-label color="primary" stacked>Name</ion-label>
+      <ion-input type="text" placeholder="Name"></ion-input>
+    </ion-item>
+    <ion-item padding>
+      <ion-label color="primary" stacked>Age</ion-label>
+      <ion-input type="Number" placeholder="Name"></ion-input>
+    </ion-item>
+    <ion-item padding>
+      <ion-label>Gender</ion-label>
+      <ion-select [(ngModel)]="gender">
+        <ion-option value="f">Female</ion-option>
+        <ion-option value="m">Male</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item padding>
+      <ion-input type="Number" placeholder="Height"></ion-input>
+      <ion-input type="Number" placeholder="Weight"></ion-input>
+    </ion-item>
+    <ion-item text-center no-lines padding>
+      <button ion-button round outline large>Save</button>
+    </ion-item>
+  </ion-list>
+ <!--  <button ion-button secondary (click)="showAccelaration()">
     {{flag ? 'Stop' : 'Start'}}
-  </button>
-  <ion-grid >
-    <ion-row  text-center padding>
-      <ion-col>
-        acceleration: {{acceleration}}
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        distance :{{distance}}  m/s
-      </ion-col>
-    </ion-row>
-    </ion-grid>
+  </button> -->
+  
 </ion-content>

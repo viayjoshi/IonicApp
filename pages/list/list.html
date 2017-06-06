@@ -10,7 +10,7 @@
 <ion-content>
    <div #map id="map"></div>
    <ion-grid >
-    <ion-row  text-center padding>
+    <ion-row  text-center>
       <ion-col>
         <ion-icon ios="ios-man" md="ios-man-outline"></ion-icon>
       </ion-col>
@@ -21,15 +21,18 @@
        <ion-icon ios="ios-flash" md="ios-flash-outline"></ion-icon>
       </ion-col>
     </ion-row>
-    <ion-row text-center padding class="activityCount">
+    <ion-row text-center class="activityCount">
       <ion-col>
-        {{distanceTravelled || "0"}} km
+        <span>{{distanceTravelled || "0.0"}} </span>
+        <p>Km</p>
       </ion-col>
       <ion-col>
         <span>{{currentTimer || "00:00:00"}}</span>
+        <p>HH:MM:SS</p>
       </ion-col>
       <ion-col>
-        ---
+        <span>160</span>
+        <p>Kcal</p>
       </ion-col>
     </ion-row>
     <ion-row text-center>

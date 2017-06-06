@@ -20,9 +20,19 @@ page-list {
   ion-icon{
   	font-size: 2.2em;
   }
+  ion-row{
+  	padding-top: 15px !important;
+  }
   .activityCount{
   	font-size: 1.7em;
   }
+  .activityCount span{
+	color: brown;
+  }
+  .activityCount p{
+  	font-size: 0.6em;
+  }
+
   .scroll-content{
   	overflow-y: hidden !important;
   }
