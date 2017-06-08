@@ -2,6 +2,7 @@ import { Component,ViewChild} from '@angular/core';
 import { NavController, NavParams,Platform} from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion';
+import { Storage } from '@ionic/storage';
 
 declare var google;
 @Component({
@@ -87,8 +88,18 @@ export class ListPage {
   }
 
   getCalories(){
-    
+    // if (gender == "male") {
+    //         bmr = (13.75*kilogramweight) + (5*height) - (6.76*age) + 66;
+    //  }
+    //  else if (gender == "female") {
+    //       bmr = (9.56*kilogramweight) + (1.85*height) - (4.68*age) + 655;
+    //  }
+     
+    //  time = (minutes + (seconds/60))/(60);
+     
+    //  caloricexpenditure = Math.round((bmr/24)*time*mets);
   }
+  
   convertToKm(disance){
     return this.roundToNumber(disance/1000,1);
   }
@@ -97,6 +108,25 @@ export class ListPage {
     return Math.round(value * multiplier) / multiplier;
   }
 }
+// <option value="6.0">jog/walk combination (jogging component of less than 10 minutes)</option>
+//   <option value="4.5">jogging on a mini-tramp</option>
+//   <option value="7.0">jogging, general</option>
+//   <option value="8.0">jogging, in place</option>
+//   <option value="16.0">running, 10 mph (6 min/mile)</option>
+//   <option value="18.0">running, 10.9 mph (5.5 min/mile)</option>
+//   <option value="8.0">running, 5 mph (12 min/mile)</option>
+//   <option value="9.0">running, 5.2 mph (11.5 min/mile)</option>
+//   <option value="10.0">running, 6 mph (10 min/mile)</option>
+//   <option value="11.0">running, 6.7 mph (9 min/mile)</option>
+//   <option value="11.5">running, 7 mph (8.5 min/mile)</option>
+//   <option value="12.5">running, 7.5 mph (8 min/mile)</option>
+//   <option value="13.5">running, 8 mph (7.5 min/mile)</option>
+//   <option value="14.0">running, 8.6 mph (7 min/mile)</option>
+//   <option value="15.0">running, 9 mph (6.5 min/mile)</option>
+//   <option value="9.0">running, cross country</option>
+//   <option value="10.0">running, on a track, team practice</option>
+//   <option value="15.0">running, stairs, up</option>
+//   <option value="8.0">running, training, pushing a wheelchair</option>
  //  calculateDistance(){
 
  //    function toRad (val) {

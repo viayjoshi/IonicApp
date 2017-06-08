@@ -1,45 +1,46 @@
 import { Component ,ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import { NavController,Platform } from 'ionic-angular';
-//import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition, MarkerOptions, Marker} from '@ionic-native/google-maps';
-import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion';
+import { Storage } from '@ionic/storage';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  flag:boolean=false;
-  subscription:any;	
-  acceleration:string="";
-  distance :number=0;
-  constructor(public navCtrl: NavController,private platform: Platform, private deviceMotion: DeviceMotion) {
+ userName:string;
+ userAge:number;
+ userGender:string;
+ userHeight:string;
+ userWeight:number;
+  constructor(public navCtrl: NavController,private platform: Platform,public storage: Storage) {
    
     platform.ready().then(() => {
-   		
-   	// 	this.deviceMotion.getCurrentAcceleration().then(
-  		// (acceleration: DeviceMotionAccelerationData) => console.log(acceleration),
-  		// (error: any) => console.log(error));   
-
+      this.storage.get('info').then((val)=>{
+        if(val!=null){
+          this.userName=val.name;
+          this.userAge=parseInt(val.age);
+          this.userGender=val.gender;
+          this.userHeight=val.height;
+          this.userWeight=val.weight;
+         }
+       });
      });
-    console.log(this.deviceMotion);
-
   }
 
-  showAccelaration(){
-  	this.flag=!this.flag;
-  	let options={
-  		frequency: 20000
-  	}
-  	if(this.flag){
-  		this.subscription = this.deviceMotion.watchAcceleration(options).subscribe((acceleration: DeviceMotionAccelerationData) => {
-	  		console.log(acceleration);
-	  		this.acceleration=acceleration.toString();
-	  		this.distance+= 0.5 * (acceleration.x) * Math.pow(2,2);
-		});	
-  	}else{
-  		this.subscription.unsubscribe();
-  	}
-	
+  save(){
+    if(this.userName && this.userAge && this.userGender && this.userHeight && this.userWeight){
+      let obj={
+        name:this.userName,
+        age:this.userAge,
+        gender:this.userGender,
+        height:this.userHeight,
+        weight:this.userWeight
+      }
+      this.storage.set('info',obj);
+      this.storage.get('info').then((val)=>{
+        console.log(val);
+      });
+    }    
   }
-
 
 }

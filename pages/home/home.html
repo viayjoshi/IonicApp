@@ -12,25 +12,25 @@
   <ion-list>
     <ion-item padding>
       <ion-label color="primary" stacked>Name</ion-label>
-      <ion-input type="text" placeholder="Name"></ion-input>
+      <ion-input type="text" placeholder="Name" [(ngModel)]="userName"></ion-input>
     </ion-item>
     <ion-item padding>
       <ion-label color="primary" stacked>Age</ion-label>
-      <ion-input type="Number" placeholder="Name"></ion-input>
+      <ion-input type="Number" placeholder="Age" [(ngModel)]="userAge"></ion-input>
     </ion-item>
     <ion-item padding>
       <ion-label>Gender</ion-label>
-      <ion-select [(ngModel)]="gender">
+      <ion-select [(ngModel)]="userGender">
         <ion-option value="f">Female</ion-option>
         <ion-option value="m">Male</ion-option>
       </ion-select>
     </ion-item>
     <ion-item padding>
-      <ion-input type="Number" placeholder="Height"></ion-input>
-      <ion-input type="Number" placeholder="Weight"></ion-input>
+      <ion-input type="Number" placeholder="Height" [(ngModel)]="userHeight"></ion-input>
+      <ion-input type="Number" placeholder="Weight" [(ngModel)]="userWeight"></ion-input>
     </ion-item>
     <ion-item text-center no-lines padding>
-      <button ion-button round outline large>Save</button>
+      <button ion-button round outline large (click)="save()">Save</button>
     </ion-item>
   </ion-list>
  <!--  <button ion-button secondary (click)="showAccelaration()">
