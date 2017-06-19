@@ -1,8 +1,9 @@
 import { Component,ViewChild} from '@angular/core';
-import { NavController, NavParams,Platform} from 'ionic-angular';
+import { NavController, NavParams,Platform,AlertController,Nav} from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion';
 import { Storage } from '@ionic/storage';
+
 
 declare var google;
 @Component({
@@ -11,47 +12,55 @@ declare var google;
 })
 export class ListPage {
   @ViewChild('map') mapElement;
+  @ViewChild(Nav) nav: Nav;
    map:any;
    currentTimer:any;
    flag:boolean;
-   flag1:boolean=true;
+   //flag1:boolean=true;
    mytimeout:any;
    minutes:number=0;
    seconds:number=0;
    hours:number=0;
    count:number=0;
-   originLat:any;
-   originLog:any;
-   destLat:any;
-   destLog:any;
-   flag2:boolean=false;
   subscription:any;  
   acceleration:string="";
   distance :number=0;
   distanceTravelled:number=0;
-  constructor(public navCtrl: NavController,private deviceMotion: DeviceMotion,private platform: Platform,public geolocation: Geolocation) {
+  caloriesburned:number=0;
+  userName:string;
+ userAge:number;
+ userGender:string;
+ userHeight:number;
+ userWeight:number;
+ x:number;
+ y:number;
+ z:number;
+ inputArray:Array<number>=[];
+ totalAccInSecond:number=0;
+ velCount:number=0;
+ velocityPerSec:number=0;
+  constructor(public navCtrl: NavController,private deviceMotion: DeviceMotion,private platform: Platform,public geolocation: Geolocation,public storage: Storage,public alertCtrl: AlertController) {
     // If we navigated to this page, we will have an item available as a nav param
     platform.ready().then(() => {
       this.currentTimer="00:00:00"
-        geolocation.getCurrentPosition().then(pos => {
-          this.initMap(pos.coords.latitude,pos.coords.longitude);
-          console.log('lat: ' + pos.coords.latitude + ', lon: ' + pos.coords.longitude);
-                    
-     });  
-
+        //this.initMap();
+     this.storage.get('info').then((val)=>{
+        if(val!=null){
+          this.userName=val.name;
+          this.userAge=parseInt(val.age);
+          this.userGender=val.gender;
+          this.userHeight=parseInt(val.height);
+          this.userWeight=parseInt(val.weight);;
+         };
+       });  
      });
   }
-
-  initMap(latitude,longitude){
-    
-    //let lat= new google.maps.LatLng(latitude,longitude);
-    let mapOptions = {
-          zoom: 15,
-          center: {lat: latitude, lng: longitude}
-        };
-    this.map=new google.maps.Map(this.mapElement.nativeElement,mapOptions)
-  }
+  
   startTimer(){
+    if(!this.userName && !this.userAge  && !this.userGender &&  !this.userHeight  && !this.userWeight){
+      this.showAlert('Please fill personal info first');
+      return;
+    }
     this.flag=!this.flag;
     if(this.flag){
       this.mytimeout=setInterval(() => {
@@ -65,39 +74,86 @@ export class ListPage {
         }else{
           this.seconds++;
         }
+        //this.getCalories();
         this.currentTimer=("0"+this.hours).slice(-2)+':'+("0"+this.minutes).slice(-2)+':'+("0"+this.seconds).slice(-2);
       }, 1000);  
+      
     }else{
       clearInterval(this.mytimeout);
     }
     this.showAccelaration();
+    //this.getCalor.ies();
   }
   showAccelaration(){
     let options={
-      frequency:3000
+      frequency:100
     }
     if(this.flag){
       this.subscription = this.deviceMotion.watchAcceleration(options).subscribe((acceleration: DeviceMotionAccelerationData) => {
+        //this.totalAccInSecond=0; 
         this.acceleration=acceleration.toString();
-        this.distance+= 0.5 * (acceleration.x) * Math.pow(2,2);
-        this.distanceTravelled=this.convertToKm(this.distance);
+        
+        this.x=parseFloat((acceleration.x).toFixed(2));
+        this.y=parseFloat((acceleration.y).toFixed(2));
+        this.z=parseFloat((acceleration.z).toFixed(2));
+        if(this.count >= 9){
+          let avg=parseFloat((this.totalAccInSecond/(10*1000)).toFixed(2));
+          //if(avg > 0.99){
+             this.velocityPerSec=parseFloat(((9806.65*avg)/(2*3.14*1)).toFixed(2));//this.getAccl2mms(avg,1);
+
+             //if (this.velCount >= 9) {
+             //this.velocityPerSec=this.velocityPerSec/10;
+       
+             this.distanceTravelled = this.distanceTravelled + parseFloat((this.velocityPerSec*0.1).toFixed(2));
+             //if(v>1){
+              
+             //}
+             //this.velocityPerSec=0;
+             //this.velCount=0;
+           //}
+           //}  
+          this.velocityPerSec=0;              
+          this.count=0;   
+          this.totalAccInSecond=0;
+          //this.velCount++;
+        }else{
+
+          let valuep=parseFloat(Math.sqrt(this.x*this.x+this.y*this.y+this.z*this.z).toFixed(2));
+          if(valuep < 0){
+            valuep=valuep - (valuep*2);  
+          }
+          this.totalAccInSecond+=valuep;
+
+          this.count++;  
+        }
+    
     });  
     }else{
       this.subscription.unsubscribe();
     }
   }
-
+  getAccl2mms(acc,freq){
+     let result = 0;
+      let gravity=9806.65;
+      let PI=3.14;
+      result = (gravity*acc)/(2*PI*freq);
+      return result;
+  }
   getCalories(){
-    // if (gender == "male") {
-    //         bmr = (13.75*kilogramweight) + (5*height) - (6.76*age) + 66;
-    //  }
-    //  else if (gender == "female") {
-    //       bmr = (9.56*kilogramweight) + (1.85*height) - (4.68*age) + 655;
-    //  }
+   // men =10 weigh + 6.25 heigh -5 age + 5
+   // women=10 weigh + 6.25 heigh -5 age + 161
+
+   let bmr;
+     if (this.userGender=="m") {
+            bmr = (13.75* this.userWeight) + (5*this.userHeight) - (6.76*this.userAge) + 66;
+     }
+    else if (this.userGender== "f") {
+           bmr = (9.56* this.userWeight) + (1.85*this.userHeight) - (4.68*this.userAge) + 655;
+    }
      
-    //  time = (minutes + (seconds/60))/(60);
+    let time = (this.hours*60+this.minutes + (this.seconds/60))/(60);
      
-    //  caloricexpenditure = Math.round((bmr/24)*time*mets);
+     this.caloriesburned += Math.round((bmr/24)*time*6.0);
   }
   
   convertToKm(disance){
@@ -107,6 +163,67 @@ export class ListPage {
     var multiplier = Math.pow(10, precision || 0);
     return Math.round(value * multiplier) / multiplier;
   }
+  showAlert(msg){
+    //console.log(this.nav,this);
+     let alert = this.alertCtrl.create({
+            title: msg,
+            buttons: [{
+              text: 'Ok',
+              handler: () => {
+                // user has clicked the alert button
+                // begin the alert's dismiss transition
+                ///console.log(this.nav,this);
+                 alert.dismiss();
+               // let navTransition =
+
+                // start some async method
+                // someAsyncOperation().then(() => {
+                //   // once the async operation has completed
+                //   // then run the next nav transition after the
+                //   // first transition has finished animating out
+
+                //   navTransition.then(() => {
+                //     this.nav.pop();
+                //   });
+                // });
+                return false;
+              }
+            }]
+          });
+
+        alert.present();
+  }   
+  initMap(){
+  //this.geolocation.getCurrentPosition({ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }).then((resp) => {
+    //console.log(resp.coords.latitude+", "+resp.coords.longitude);
+    //let location = new LatLng(resp.coords.latitude, resp.coords.longitude);
+
+  //   this.map = new GoogleMap('map', {
+      
+  //     'controls': {
+  //       'compass': true,
+  //       'myLocationButton': true,
+  //       'indoorPicker': true,
+  //       'zoom': true
+  //     },
+  //     'camera': {
+  //       'latLng': location,
+  //       'tilt': 30,
+  //       'zoom': 15,
+  //       'bearing': 50
+  //     }
+  //   });
+
+  //   this.map.on(GoogleMapsEvent.MAP_READY).subscribe(() => {
+  //     //console.log('Map is ready!');
+  //     this.showAlert('map is ready')
+  //   });
+  // }).catch((error) => {
+  //   this.showAlert('map loading error')
+  //   console.log('Error getting location', error);
+  // });
+}
+  
 }
 // <option value="6.0">jog/walk combination (jogging component of less than 10 minutes)</option>
 //   <option value="4.5">jogging on a mini-tramp</option>

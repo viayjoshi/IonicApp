@@ -1,7 +1,32 @@
 page-list {
-	#map{
-		height:50%;
+
+	.stepcounter{
+		
+		    margin-top: 5%;
 	}
+	.stepcounter .circle{
+	  border:1px solid black;
+	  height: 160px;
+    width: 160px;
+	  margin: auto;
+	  border-radius: 80px;
+	  position: relative;
+	 }
+     .circle > .text{
+       bottom: 17%;	
+       
+     }
+	 .circle > .count{
+       top:  38%;	
+       font-size: 1.7em;
+      
+       color: brown;
+     }
+	 .circle > .text,.circle > .count {
+          position: absolute;
+          width: 100%;
+ 	 }
+
 	button.button-icon{
 		z-index: 1;
 		/*position: absolute;*/

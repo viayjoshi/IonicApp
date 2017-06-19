@@ -12,6 +12,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geolocation } from '@ionic-native/geolocation';
 import { DeviceMotion } from '@ionic-native/device-motion';
 import { IonicStorageModule } from '@ionic/storage';
+import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition, MarkerOptions, Marker } from '@ionic-native/google-maps';
+
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { IonicStorageModule } from '@ionic/storage';
     SplashScreen,
     Geolocation,
     DeviceMotion,
+    GoogleMaps,   
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
