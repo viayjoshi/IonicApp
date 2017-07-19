@@ -4,7 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { ActivityPage } from '../pages/list/activity';
 // import { MapPage } from '../pages/map/map';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -13,13 +13,14 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { DeviceMotion } from '@ionic-native/device-motion';
 import { IonicStorageModule } from '@ionic/storage';
 import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition, MarkerOptions, Marker } from '@ionic-native/google-maps';
-
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
+import { Calories } from '../pages/list/calories_burned';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    ActivityPage
   ],
   imports: [
     BrowserModule,
@@ -30,14 +31,16 @@ import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition, MarkerO
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage
+    ActivityPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     Geolocation,
     DeviceMotion,
-    GoogleMaps,   
+    GoogleMaps,
+    LocationAccuracy,
+    Calories,   
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
