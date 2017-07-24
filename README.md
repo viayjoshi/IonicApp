@@ -1,2 +1,0 @@
-# IonicApp
-Running App 
